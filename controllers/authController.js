@@ -1,13 +1,16 @@
 const db = require("../models")
 const bcrypt = require("bcrypt")
+const { Op } = require("sequelize")
 
 const authController = {
   registerUser: async (req, res) => {
     try {
       const findUserByUsernameOrEmail = await db.User.findOne({
         where: {
-          username: req.body.username,
-          email: req.body.email,
+          [Op.or]: {
+            email: req.body.email,
+            username: req.body.username,
+          },
         },
       })
 
@@ -17,7 +20,7 @@ const authController = {
         })
       }
 
-      const hashedPassword = bcrypt.hashSync(password, 5)
+      const hashedPassword = bcrypt.hashSync(req.body.password, 5)
 
       const newUser = await db.User.create({
         username: req.body.username,
@@ -32,7 +35,7 @@ const authController = {
     } catch (err) {
       console.log(err)
       return res.status(500).json({
-        message: err.status,
+        message: err.message,
       })
     }
   },
