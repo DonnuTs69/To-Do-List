@@ -4,8 +4,9 @@ const { verifyToken } = require("../middlewares/authMiddleware")
 
 const router = express.Router()
 
-router.post("/create", verifyToken, titleControlles.listPost)
+router.get("/all-list/:id", verifyToken, titleControlles.getAllListFromTheUser)
 router.get("/:id", verifyToken, titleControlles.getListById)
+router.post("/create", verifyToken, titleControlles.listPost)
 router.patch("/edit/:id", verifyToken, titleControlles.listUpdate)
 router.delete("/delete/:id", verifyToken, titleControlles.listDelete)
 

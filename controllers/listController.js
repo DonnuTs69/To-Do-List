@@ -66,20 +66,46 @@ const listController = {
   },
   listUpdate: async (req, res) => {
     try {
-      // await db.List.findByPk(req.params.id)
-
-      console.log(req.params.id, "ini ID")
-      console.log(req.body)
-      const listUpdate = await db.List.update({
-        title: req.body.title,
-        where: {
-          id: req.params.id,
+      const listUpdate = await db.List.update(
+        {
+          title: req.body.title,
         },
-      })
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      )
 
       return res.status(200).json({
         message: "List updated",
         data: listUpdate,
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        message: err.message,
+      })
+    }
+  },
+  getAllListFromTheUser: async (req, res) => {
+    try {
+      await db.User.findByPk(req.params.id)
+
+      const foundAllListFromUser = await db.List.findAll({
+        include: [
+          {
+            model: db.Task,
+            include: {
+              model: db.Status,
+            },
+          },
+        ],
+      })
+
+      return res.status(200).json({
+        message: "get all list from user",
+        data: foundAllListFromUser,
       })
     } catch (err) {
       console.log(err)

@@ -37,6 +37,33 @@ const taskController = {
       })
     }
   },
+  updateTask: async (req, res) => {
+    try {
+      await db.List.findByPk(req.params.id)
+
+      updateTask = await db.Task.update(
+        {
+          description: req.body.description,
+          StatusId: req.body.StatusId,
+        },
+        {
+          where: {
+            id: req.body.id,
+          },
+        }
+      )
+
+      return res.status(200).json({
+        message: "update task successful",
+        data: updateTask,
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        message: err.message,
+      })
+    }
+  },
 }
 
 module.exports = taskController
