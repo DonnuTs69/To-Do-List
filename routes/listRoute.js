@@ -6,5 +6,7 @@ const router = express.Router()
 
 router.post("/create", verifyToken, titleControlles.listPost)
 router.get("/:id", verifyToken, titleControlles.getListById)
+router.patch("/edit/:id", verifyToken, titleControlles.listUpdate)
+router.delete("/delete/:id", verifyToken, titleControlles.listDelete)
 
 module.exports = router

@@ -45,6 +45,49 @@ const listController = {
       })
     }
   },
+  listDelete: async (req, res) => {
+    try {
+      const listDeleted = await db.List.destroy({
+        where: {
+          id: req.params.id,
+        },
+      })
+
+      return res.status(200).json({
+        message: "List deleted",
+        data: listDeleted,
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        message: err.message,
+      })
+    }
+  },
+  listUpdate: async (req, res) => {
+    try {
+      // await db.List.findByPk(req.params.id)
+
+      console.log(req.params.id, "ini ID")
+      console.log(req.body)
+      const listUpdate = await db.List.update({
+        title: req.body.title,
+        where: {
+          id: req.params.id,
+        },
+      })
+
+      return res.status(200).json({
+        message: "List updated",
+        data: listUpdate,
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        message: err.message,
+      })
+    }
+  },
 }
 
 module.exports = listController
