@@ -6,6 +6,18 @@ const { signToken } = require("../lib/jwt")
 const authController = {
   registerUser: async (req, res) => {
     try {
+      if (!req.body.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+        throw new Error("Error")
+      }
+
+      if (
+        !req.body.password.match(
+          /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/
+        )
+      ) {
+        throw new Error("Password length minimum 8")
+      }
+
       const findUserByUsernameOrEmail = await db.User.findOne({
         where: {
           [Op.or]: {
@@ -70,9 +82,7 @@ const authController = {
 
       delete findUserByUsernameOrEmail.dataValues.password
 
-      const token = signToken({
-        id: findUserByUsernameOrEmail.id,
-      })
+      const token = signToken(findUserByUsernameOrEmail.toJSON())
 
       return res.status(201).json({
         message: "User Login",

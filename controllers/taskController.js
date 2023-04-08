@@ -39,7 +39,11 @@ const taskController = {
   },
   updateTask: async (req, res) => {
     try {
-      await db.List.findByPk(req.params.id)
+      const findIdTask = await db.Task.findByPk(req.params.id)
+
+      if (!findIdTask) {
+        throw new Error("Task not found")
+      }
 
       updateTask = await db.Task.update(
         {
@@ -48,7 +52,7 @@ const taskController = {
         },
         {
           where: {
-            id: req.body.id,
+            id: req.params.id,
           },
         }
       )
