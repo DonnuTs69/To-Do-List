@@ -4,6 +4,7 @@ const db = require("../models")
 const authRoute = require("../routes/authRoute")
 const listRoute = require("../routes/listRoute")
 const taskRoute = require("../routes/taskRoute")
+const statusRoute = require("../routes/statusRoute")
 
 const PORT = 8000
 const app = express()
@@ -14,6 +15,7 @@ app.use(express.json())
 app.use("/auth", authRoute)
 app.use("/list", listRoute)
 app.use("/task", taskRoute)
+app.use("/status", statusRoute)
 
 app.listen(PORT, (err) => {
   if (err) {

@@ -91,9 +91,12 @@ const listController = {
   },
   getAllListFromTheUser: async (req, res) => {
     try {
-      await db.User.findByPk(req.params.id)
+      // await db.User.findByPk(req.user.id)
 
       const foundAllListFromUser = await db.List.findAll({
+        where: {
+          UserId: req.user.id,
+        },
         include: [
           {
             model: db.Task,
