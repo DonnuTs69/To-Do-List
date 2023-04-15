@@ -116,6 +116,19 @@ const authController = {
       })
     }
   },
+  getUser: async (req, res) => {
+    try {
+      const dataUser = await db.User.findByPk(req.user.id)
+      delete dataUser.dataValues.password
+
+      return res.json(dataUser)
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        message: err.message,
+      })
+    }
+  },
 }
 
 module.exports = authController
