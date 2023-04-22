@@ -52,7 +52,7 @@ const taskController = {
         },
         {
           where: {
-            id: req.params.id,
+            id: req.body.id,
           },
         }
       )
