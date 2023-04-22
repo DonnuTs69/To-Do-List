@@ -3,7 +3,6 @@ const db = require("../models")
 const listController = {
   listPost: async (req, res) => {
     try {
-      console.log(req.user)
       const foundUserById = await db.User.findByPk(req.user.id)
 
       const createNewTitle = await db.List.create({

@@ -39,7 +39,7 @@ const taskController = {
   },
   updateTask: async (req, res) => {
     try {
-      const findIdTask = await db.Task.findByPk(req.params.id)
+      const findIdTask = await db.Task.findByPk(req.body.id)
 
       if (!findIdTask) {
         throw new Error("Task not found")
@@ -47,12 +47,13 @@ const taskController = {
 
       updateTask = await db.Task.update(
         {
-          description: req.body.description,
-          StatusId: req.body.StatusId,
+          // description: req.body.description,
+          // StatusId: req.body.StatusId,
+          ...req.body,
         },
         {
           where: {
-            id: req.body.id,
+            id: findIdTask.id,
           },
         }
       )
@@ -64,6 +65,24 @@ const taskController = {
     } catch (err) {
       console.log(err)
       return res.status(500).json({
+        message: err.message,
+      })
+    }
+  },
+  deleteTask: async (req, res) => {
+    try {
+      await db.Task.destroy({
+        where: {
+          id: req.body.id,
+        },
+      })
+
+      return res.status(200).json({
+        message: "Delete task successfull",
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({
         message: err.message,
       })
     }
