@@ -6,6 +6,6 @@ const router = express.Router()
 
 router.post("/create/:id", verifyToken, taskController.postNewTask)
 router.patch("/edit", verifyToken, taskController.updateTask)
-router.delete("/delete", verifyToken, taskController.deleteTask)
+router.delete("/delete/:id", verifyToken, taskController.deleteTask)
 
 module.exports = router

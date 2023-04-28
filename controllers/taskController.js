@@ -71,9 +71,10 @@ const taskController = {
   },
   deleteTask: async (req, res) => {
     try {
+      console.log(req.params.id)
       await db.Task.destroy({
         where: {
-          id: req.body.id,
+          id: req.params.id,
         },
       })
 
