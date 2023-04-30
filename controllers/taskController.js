@@ -39,6 +39,7 @@ const taskController = {
   },
   updateTask: async (req, res) => {
     try {
+      console.log(req.body.id, "ID")
       const findIdTask = await db.Task.findByPk(req.body.id)
 
       if (!findIdTask) {
@@ -47,9 +48,9 @@ const taskController = {
 
       updateTask = await db.Task.update(
         {
-          // description: req.body.description,
-          // StatusId: req.body.StatusId,
-          ...req.body,
+          description: req.body.description,
+          StatusId: req.body.StatusId,
+          // ...req.body,
         },
         {
           where: {
